@@ -87,8 +87,25 @@ describe("Register", () => {
       await token.connect(addr2).approve(user.address,amount);
       await user.connect(addr2).register(addr1.address);
       await expect(user.connect(addr2).register(addr1.address)).to.be.revertedWith('User already registered');
-
+   
     });
+
+    it('Set Score', async () =>{
+      const amount1 = 100;
+      await token.transfer(addr1.address,500);
+      const addr1Balance = await token.balanceOf(addr1.address);
+      console.log("Account balance :",Number(addr1Balance));
+      expect(addr1Balance).to.equal(500);
+      await token.connect(addr1).approve(user.address, amount1);
+      await user.connect(addr1).register(owner.address);
+      await expect(user.connect(addr1).register(owner.address)).to.be.revertedWith('User already registered');
+      const score = 400;
+      await user.connect(owner).setScore(addr1.address,score);
+      // await expect(user.connect(owner).setScore(addr1.address,score)).to.be.revertedWith('User address not registered');
+
+
+
+    })
   })
 
 
