@@ -4,20 +4,22 @@ pragma solidity ^0.8.0;
 import "hardhat/console.sol";
 import "./Token.sol";
 
+
+/**
+*@title UserRegister
+*@dev This contract registers new user with a referrar address and stores their details with basic token transfer functionalities.
+ */
+
 contract UserRegister {
 
 
     Token public token;
 
+   
     constructor(Token _token) public {
         token = _token;
     }
-    // event Registered(
-    //     address account,
-    //     address referral_code,
-    //     uint registered_time
-    // );
-
+  
     struct profile  {
         address myAddress;
         address referralCode;
@@ -29,11 +31,17 @@ contract UserRegister {
 
     mapping(address => profile) public user;
 
-    function register (address _referralCode) public {
-        
+    /**
+     *@dev Registers user and Token is transferred as registartion fees.
+     * Requirements:
+     * - the caller must have a balance of at least 100.
+     * - should not be a registered user.0
+     *@param _referralCode represents the address of the user's referrer.
+     *Note: This function will register user by paying 100 tokens
+     *Already registered users cant avail this function.
+     */
 
-        
-        
+    function register (address _referralCode) public {
         require(user[msg.sender].myAddress==address(0),"User already registered");
      
         token.approve(address(this), 100);

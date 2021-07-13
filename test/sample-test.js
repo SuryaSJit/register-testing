@@ -79,7 +79,6 @@ describe("Register", () => {
       await token.transfer(addr2.address,500);
       const addr2Balance = await token.balanceOf(addr2.address);
       expect(addr2Balance).to.equal(500);
-
  
       await token.connect(addr1).approve(user.address, amount);
       await user.connect(addr1).register(owner.address);
@@ -91,19 +90,6 @@ describe("Register", () => {
 
     });
   })
-  // it("Should return the new greeting once it's changed", async function () {
-  //   const Greeter = await ethers.getContractFactory("Greeter");
-  //   const greeter = await Greeter.deploy("Hello, world!");
-  //   await greeter.deployed();
 
-  //   expect(await greeter.greet()).to.equal("Hello, world!");
-
-  //   const setGreetingTx = await greeter.setGreeting("Hola, mundo!");
-
-  //   // wait until the transaction is mined
-  //   await setGreetingTx.wait();
-
-  //   expect(await greeter.greet()).to.equal("Hola, mundo!");
-  // });
 
 });
