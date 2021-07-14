@@ -101,6 +101,9 @@ describe("Register", () => {
       await expect(user.connect(addr1).register(owner.address)).to.be.revertedWith('User already registered');
       const score = 400;
       await user.connect(owner).setScore(addr1.address,score);
+      // await user.connect(owner).setScore(addr1.address,score);
+      // await user.connect(owner).setScore(addr1.address,score);
+
       // await expect(user.connect(owner).setScore(addr1.address,score)).to.be.revertedWith('User address not registered');
 
 

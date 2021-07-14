@@ -56,6 +56,7 @@ contract UserRegister is Ownable {
         user[msg.sender].myAddress=msg.sender;
         user[msg.sender].referralCode= _referralCode;
         user[msg.sender].registration_time= block.timestamp;
+        
 
         console.log("Registration time is :",user[msg.sender].registration_time);
         console.log("User Account Balance :",token.balanceOf(msg.sender));
@@ -80,9 +81,12 @@ contract UserRegister is Ownable {
         uint256 reward = (score_.mul(20)).div(1000);
         uint256 _reward = user[userAddress_].rewards;
         user[userAddress_].rewards = reward.add(_reward);
+        token.transfer(userAddress_, reward);
 
         console.log("Reward obtained by",userAddress_,"is",reward);
         console.log("Total reward :",user[userAddress_].rewards);
+        console.log("User Account Balance :",token.balanceOf(userAddress_));
+
     }
 
 }
