@@ -1,7 +1,7 @@
 //SPDX-License-Identifier: Unlicense
 pragma solidity ^0.8.0;
 
-import "hardhat/console.sol";
+
 import "./Token.sol";
 import "@openzeppelin/contracts/access/Ownable.sol";
 import '@openzeppelin/contracts/utils/math/SafeMath.sol';
@@ -25,7 +25,7 @@ contract UserRegister is Ownable {
     }
   
     struct profile  {
-        address myAddress;
+        uint256 count;
         address referralCode;
         uint registration_time;
         uint256 score;
@@ -48,23 +48,20 @@ contract UserRegister is Ownable {
      */
 
     function register (address _referralCode) public {
-        require(user[msg.sender].myAddress==address(0),"User already registered");
+    
+        require(user[msg.sender].count==0,"User already registered");
      
         token.approve(address(this), 100);
         token.transferFrom(msg.sender, address(this), 100);
         
-        user[msg.sender].myAddress=msg.sender;
         user[msg.sender].referralCode= _referralCode;
-        user[msg.sender].registration_time= block.timestamp;
-        
-
-        console.log("Registration time is :",user[msg.sender].registration_time);
-        console.log("User Account Balance :",token.balanceOf(msg.sender));
-        console.log("Contract Balance :",token.balanceOf(address(this)));
+        user[msg.sender].registration_time= block.timestamp;  
+        user[msg.sender].count++;
+ 
     }
 
     /**
-     *@dev Rewards are given to  the user according to the score set ny the owner
+     *@dev Rewards are given to  the user according to the score set by the owner and tranfers token to the address as per reward.
       *Requirements:
       * - the caller should be the owner.
       * - the  user address should be registered already
@@ -83,9 +80,6 @@ contract UserRegister is Ownable {
         user[userAddress_].rewards = reward.add(_reward);
         token.transfer(userAddress_, reward);
 
-        console.log("Reward obtained by",userAddress_,"is",reward);
-        console.log("Total reward :",user[userAddress_].rewards);
-        console.log("User Account Balance :",token.balanceOf(userAddress_));
 
     }
 
